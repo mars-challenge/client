@@ -131,12 +131,12 @@ def team_strategy(parsed_json):
     # Find this team
     for team in teams_list:
         if team['name'] == team_name:
-            if team['life'] = 1:
+            if team['life'] = 6:
                 # Check if Shield is down and health is 1
                 print("\nGameMove: Team: {0} Action: Shield UP!| Energy: {1}".format(team_name, str(team['energy'])))
                 team_shield_up(team_name, team_auth)
             
-            if team['shield'] <> True and temperatureRatio > radiationRatio and team['shield'] < 50:
+            if team['shield'] <> True and energyGain > lifeLoss and team['shield'] >= 95:
                 # Check if the Shield would gain more energy than health would be lost
                 print("\nGameMove: Team: {0} Action: Shield DOWN!| Energy: {1}".format(team_name, str(team['energy'])))
                 team_shield_down(team_name, team_auth)
