@@ -9,9 +9,9 @@ import requests
 import websocket
 import json
 import os
-
+import math
 # Global Variables
-team_name = 'EchoTeam'                        # The Name of the Team
+team_name = 'EchoTeam2'                        # The Name of the Team
 team_auth = ''                                  # The Team Authentication Tocken
 
 host = os.environ.get('SERVER_HOST')
@@ -136,12 +136,12 @@ def team_strategy(parsed_json):
                 team_shield_up(team_name, team_auth)
                 print("\nGameMove: Team: {0} Action: Shield UP!| Energy: {1}".format(team_name, str(team['energy'])))
             
-            elif team['shield'] <> True and math.ceil(energyGain) > math.ceil(lifeLoss) and team['shield'] <= 95:
+            elif team['shield'] == True and math.ceil(energyGain) > math.ceil(lifeLoss) and team['shield'] >= 95:
                 # Check if the Shield would gain more energy than health would be lost
                 team_shield_down(team_name, team_auth)
                 print("\nGameMove: Team: {0} Action: Shield DOWN!| Energy: {1}".format(team_name, str(team['energy'])))
                 
-            elif team['shield'] <> False:
+            elif team['shield'] == False:
                 # Check if the Shield would gain more energy than health would be lost
                 team_shield_up(team_name, team_auth)
                 print("\nGameMove: Team: {0} Action: Shield UP!| Energy: {1}".format(team_name, str(team['energy'])))
@@ -158,6 +158,8 @@ team_auth = register_team(team_name)
 # Create the WebSocket for Listening
 ws = websocket.create_connection(server_ws)
 
+f = open('log-run', 'w')
+
 while True:
 
     json_string = ws.recv()  # Receives the the json information
@@ -166,7 +168,7 @@ while True:
     # 960996217958863,"radiation":872},"teams":[{"name":"TheBorgs","energy":100,"life":0,"shield":false},{"name":"QuickFandang
     # o","energy":100,"life":0,"shield":false},{"name":"InTheBigMessos","energy":32,"life":53,"shield":false},{"name":"MamaMia
     # ","energy":100,"life":100,"shield":false}]}'
-
+    f.write( str(json_string) + "\n")
     parsed_json = json.loads(json_string)
 
     # Check if the game has started
@@ -179,5 +181,5 @@ while True:
         team_strategy(parsed_json)
 
 ws.close()
-
+f.close()
 print "Good bye!"
