@@ -136,6 +136,11 @@ def team_strategy(parsed_json):
                 # Check if the Shield would gain more energy than health would be lost
                 print("\nGameMove: Team: {0} Action: Shield DOWN!| Energy: {1}".format(team_name, str(team['energy'])))
                 team_shield_down(team_name, team_auth)
+                
+            if team['shield'] <> False and temperatureRatio < radiationRatio:
+                # Check if the Shield would gain more energy than health would be lost
+                print("\nGameMove: Team: {0} Action: Shield UP!| Energy: {1}".format(team_name, str(team['energy'])))
+                team_shield_up(team_name, team_auth)
             
             else:
                print("\nTeam: {0} Action: None| Energy: {1}".format(team_name, str(team['energy'])))
