@@ -11,7 +11,7 @@ import json
 import os
 
 # Global Variables
-team_name = 'EchoTeam'                        # The Name of the Team
+team_name = 'TheShields'                        # The Name of the Team
 team_auth = ''                                  # The Team Authentication Tocken
 
 host = os.environ.get('SERVER_HOST')
@@ -103,19 +103,40 @@ def team_strategy(parsed_json):
   :param parsed_json: Readings from the Mars Sensors
   :return:Nothing
   """
-    # The Strategy for this client is to have the shield up constantly until it is depleted.
-    # Then wait until is charged again to a 10% and enable it again
+    # The Strategy for this client is to have the shield up constantly unless life loss would be less than energy gain.
+    # If life total is 1, shield is constantly up
 
     # Get the Team List
     teams_list = parsed_json['teams']
+    
+    readings = parsed_json['readings']
+
+    minRadiation = 0
+    maxRadiation = 1000
+    
+    currentRadiation = readings['radiation']
+    
+    minTemperature = -142
+    maxTemperature = 35
+    
+    currentTemperature = readings['temperature']
+    
+    radiationRatio = (currentRadiation - minRadiation) / (maxRadiation - minRadiation)
+    temperatureRatio = (currentTemperature - minTemperature) / (maxTemperature - minTemperature)
 
     # Find this team
     for team in teams_list:
         if team['name'] == team_name:
-            if team['shield'] <> True and team['energy'] > 10:
-                # Check if Shield is up and shield energy is larger than 10%
+            if team['shield'] <> False and team['life'] = 1:
+                # Check if Shield is down and health is 1
                 print("\nGameMove: Team: {0} Action: Shield UP!| Energy: {1}".format(team_name, str(team['energy'])))
                 team_shield_up(team_name, team_auth)
+            
+            if team['shield'] <> True and temperatureRatio > radiationRatio:
+                # Check if the Shield would gain more energy than health would be lost
+                print("\nGameMove: Team: {0} Action: Shield DOWN!| Energy: {1}".format(team_name, str(team['energy'])))
+                team_shield_down(team_name, team_auth)
+            
             else:
                print("\nTeam: {0} Action: None| Energy: {1}".format(team_name, str(team['energy'])))
 
