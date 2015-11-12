@@ -11,7 +11,7 @@ import json
 import os
 
 # Global Variables
-team_name = 'TheShields'                        # The Name of the Team
+team_name = 'EchoTeam'                        # The Name of the Team
 team_auth = ''                                  # The Team Authentication Tocken
 
 host = os.environ.get('SERVER_HOST')
