@@ -131,7 +131,7 @@ def team_strategy(parsed_json):
     # Find this team
     for team in teams_list:
         if team['name'] == team_name:
-            if team['life'] = 6:
+            if team['life'] < 6:
                 # Check if Shield is down and health is 1
                 print("\nGameMove: Team: {0} Action: Shield UP!| Energy: {1}".format(team_name, str(team['energy'])))
                 team_shield_up(team_name, team_auth)
