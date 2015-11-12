@@ -123,6 +123,10 @@ def team_strategy(parsed_json):
     
     radiationRatio = (currentRadiation - minRadiation) / (maxRadiation - minRadiation)
     temperatureRatio = (currentTemperature - minTemperature) / (maxTemperature - minTemperature)
+    
+    energyLoss = radiationRatio * 5
+    lifeLoss = radiationRatio * 5
+    energyGain = temperatureRatio * 5
 
     # Find this team
     for team in teams_list:
